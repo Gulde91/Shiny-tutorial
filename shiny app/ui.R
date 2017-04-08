@@ -17,15 +17,9 @@ titlePanel('Shiny app'),
       br(),
       fluidRow(
         column(width = 6,
-      numericInput('numer', label = h4('Numeric input'), value = 10)),
-        column(width = 6,
-      h4('Submitbutton'),
-      submitButton('Submit'))
+      numericInput('numer', label = h4('Numeric input'), value = 10))
       ),
       fluidRow(
-        column(6, 
-      radioButtons('radiobuttons', label = h4('Radio Buttons'), 
-                   choices = list('valg 1' = 1, 'valg 2' = 2), selected = 2)),
         column(6,
       h4('Single Checkbox'),
       checkboxInput('checkbox', label='Choice A', value = F)
@@ -39,8 +33,6 @@ titlePanel('Shiny app'),
                          choices = list('valg 1' = 1, 'valg 2' = 2, 'valg 3' = 3), selected = 2))
       ),
       fluidRow(
-        column(6,
-      sliderInput('slider1', label = h4('Sliders'), min = 0, max = 100, value = c(10,90))),
         column(6,
       dateInput('date', label = h4('Date input'), value = '2016-12-01')
       )),
@@ -65,7 +57,16 @@ mainPanel(
       br(),
       h2('Analysis'),
       tabsetPanel(type = "tabs", tabPanel("Data table", dataTableOutput('Table')), 
-                  tabPanel('Summary'))
+                  tabPanel('Summary'), 
+                  tabPanel('K means'),
+                            radioButtons('radio', label = h4('Select Image'), 
+                                  choices = list('Image 1' = 1, 'Image 2' = 2), selected = 1),
+            #                imageOutput('Image'),
+                            sliderInput('slider1', label = h4('Clusters'), 
+                                        min = 2, max = 20, value = 2),
+                            textOutput('text1'),
+                            submitButton('Submit')
+                 )
     )
   )
 ))
