@@ -57,18 +57,20 @@ mainPanel(
       br(),
       h2('Analysis'),
       tabsetPanel(type = "tabs", tabPanel("Data table", dataTableOutput('Table')), 
-                  tabPanel('Summary'), 
-                  tabPanel('K means'),
-                            radioButtons('radio', label = h4('Select Image'), 
-                                  choices = list('Image 1' = 1, 'Image 2' = 2), selected = 1),
-            #                imageOutput('Image'),
-                            sliderInput('slider1', label = h4('Clusters'), 
-                                        min = 2, max = 20, value = 2),
-                            textOutput('text1'),
-                            submitButton('Submit')
+                  tabPanel('Summary', dataTableOutput('Table2')), 
+                  tabPanel('K means',
+                            #radioButtons('radio', label = h4('Select Image'), 
+                            #     choices = list('Image 1' = 1, 'Image 2' = 2), selected = 1),
+                            #imageOutput('Image'),
+                            plotOutput('plot1', click = 'mouse'),
+                            verbatimTextOutput('coord'),
+                  #          sliderInput('slider1', label = h4('Clusters'), 
+                  #                      min = 2, max = 20, value = 2),
+                  #          textOutput('text1'),
+                  #          submitButton('Submit'))
+                             uiOutput('All')
                  )
     )
   )
-))
-
+)))
 
