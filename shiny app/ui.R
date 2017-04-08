@@ -1,25 +1,59 @@
 library(shiny)
 
 ui <- shinyUI(fluidPage(
-  titlePanel('Shiny app'),
+titlePanel('Shiny app'),
   sidebarLayout(
     sidebarPanel(
       h2('Menu'),
       br(),
+      fluidRow(
+        column(width = 6,
       h4('ActionButton'),
-      actionButton('Per', label = 'Perform'),
+      actionButton('Per', label = 'Perform')),
+        column(width = 6,
+      h4('Help Text'),
+      helpText('For help'))
+      ),
       br(),
+      fluidRow(
+        column(width = 6,
+      numericInput('numer', label = h4('Numeric input'), value = 10)),
+        column(width = 6,
       h4('Submitbutton'),
-      submitButton('Submit'),
+      submitButton('Submit'))
+      ),
+      fluidRow(
+        column(6, 
+      radioButtons('radiobuttons', label = h4('Radio Buttons'), 
+                   choices = list('valg 1' = 1, 'valg 2' = 2), selected = 2)),
+        column(6,
       h4('Single Checkbox'),
-      checkboxInput('checkbox', label='Choice A', value = F),
+      checkboxInput('checkbox', label='Choice A', value = F)
+      )),
+      fluidRow(
+        column(6,
+      selectInput('select', label = h4('Select Box'), 
+                  choices = list('choice 1' = 1, 'choice 2' = 2), selected = 2)),
+        column(6,
       checkboxGroupInput('checkGroup', label = h4('Checkbox Group'), 
-                         choices = list('valg 1' = 1, 'valg 2' = 2, 'valg 3' = 3), selected = 2),
-      dateInput('date', label = h4('Date input'), value = '2016-12-01'),
-      dateRangeInput('dates', label = h4('Date Ranges'), start = '2000-01-01', format = 'd/M/yy'),
+                         choices = list('valg 1' = 1, 'valg 2' = 2, 'valg 3' = 3), selected = 2))
+      ),
+      fluidRow(
+        column(6,
+      sliderInput('slider1', label = h4('Sliders'), min = 0, max = 100, value = c(10,90))),
+        column(6,
+      dateInput('date', label = h4('Date input'), value = '2016-12-01')
+      )),
+      fluidRow(
+        column(6,
+      textInput('text', label = h4('Text input'), value = 'Some text')),
+        column(6,
+      dateRangeInput('dates', label = h4('Date Ranges'), start = '2000-01-01', format = 'd/M/yy'))
+      ),
       fileInput('file', label = h4('File input'))
     ),
-    mainPanel(
+
+mainPanel(
       h1('Main'),
       br(),
       br(),
