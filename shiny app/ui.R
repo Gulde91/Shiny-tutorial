@@ -1,6 +1,6 @@
 library(shiny)
 
-ui <- shinyUI(fluidPage(
+shinyUI(fluidPage(
 titlePanel('Shiny app'),
   sidebarLayout(
     sidebarPanel(
@@ -63,7 +63,9 @@ mainPanel(
         respectively, for 50 flowers from each of 3 species of iris. The species are', 
         strong('Iris setosa,'), strong('versicolor'), 'and', strong('virginica'),'.'),
       br(),
-      h2('Analysis')
+      h2('Analysis'),
+      tabsetPanel(type = "tabs", tabPanel("Data table", dataTableOutput('Table')), 
+                  tabPanel('Summary'))
     )
   )
 ))
