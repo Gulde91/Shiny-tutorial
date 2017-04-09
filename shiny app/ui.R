@@ -26,14 +26,6 @@ titlePanel('Shiny app'),
       )),
       fluidRow(
         column(6,
-      selectInput('select', label = h4('Select Box'), 
-                  choices = list('choice 1' = 1, 'choice 2' = 2), selected = 2)),
-        column(6,
-      checkboxGroupInput('checkGroup', label = h4('Checkbox Group'), 
-                         choices = list('valg 1' = 1, 'valg 2' = 2, 'valg 3' = 3), selected = 2))
-      ),
-      fluidRow(
-        column(6,
       dateInput('date', label = h4('Date input'), value = '2016-12-01')
       )),
       fluidRow(
@@ -59,18 +51,12 @@ mainPanel(
       tabsetPanel(type = "tabs", tabPanel("Data table", dataTableOutput('Table')), 
                   tabPanel('Summary', dataTableOutput('Table2')), 
                   tabPanel('K means',
-                            #radioButtons('radio', label = h4('Select Image'), 
-                            #     choices = list('Image 1' = 1, 'Image 2' = 2), selected = 1),
-                            #imageOutput('Image'),
                             plotOutput('plot1', click = 'mouse'),
                             verbatimTextOutput('coord'),
-                  #          sliderInput('slider1', label = h4('Clusters'), 
-                  #                      min = 2, max = 20, value = 2),
-                  #          textOutput('text1'),
-                  #          submitButton('Submit'))
-                             uiOutput('All')
+                            uiOutput('All')
                  )
     )
   )
 )))
+
 
