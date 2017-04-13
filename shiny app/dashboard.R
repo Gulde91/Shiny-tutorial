@@ -1,9 +1,11 @@
 library(shiny)
 library(shinydashboard)
 
-ui <- dashboardPage(
+ui <- dashboardPage(skin = 'blue',
 # Header 
       dashboardHeader(title = 'Shiny app',
+                   #   title = 'Example of a long title',
+                   #   titleWidth = 450,
                       dropdownMenuOutput('messageMenu'),
                       dropdownMenu(type = 'notifications',
                                    notificationItem(
@@ -38,6 +40,7 @@ ui <- dashboardPage(
                       ),
 # Sidebar      
       dashboardSidebar(
+    #   width = 400,
         sidebarMenu(
           menuItem('Data table', tabName = 'dt', icon = icon('table')),
           menuItem('Summary', tabName = 'sm', icon = icon('list-alt')),
@@ -46,13 +49,25 @@ ui <- dashboardPage(
       ),
 # Body
       dashboardBody(
+        tags$head(tags$style(HTML('
+              .main-header .logo {
+                                  font-family: "Georgia", Times, "Times New Roman", serif;
+                                  font-weight: bold;
+                                  font-size: 24px;
+                                  }
+                                  '))),
         tabItems(
           tabItem(tabName = 'dt', 
                   h2('Data table'),
                   fluidRow(
                     box(title = 'Iris data', solidHeader = T, status = 'primary',
                         dataTableOutput('Table'), width = 400)
-                  )
+                  ),
+                  # statisk inforbox:
+                  infoBox('Første infobox', color = 'blue', icon = icon('bar-chart'), fill = T),
+                  # Dynamisk infobox:
+                  infoBoxOutput('progressBox'),
+                  infoBoxOutput('approvalBox')
                   ),
           tabItem(tabName = 'sm', 
                   h2('Summary'),
@@ -64,16 +79,17 @@ ui <- dashboardPage(
           tabItem(tabName = 'km', 
                   h2('K-means'),
                   fluidRow(
-                    box(title = 'Scatterplot', solidHeader = T, status = 'primary', plotOutput( 'plot1', click = 'mouse')),
-                    box(status = 'warning', sliderInput('slider1', label = h4('Clusters'), 
+                    box(title = 'Scatterplot', solidHeader = T, status = 'primary', 
+                        plotOutput( 'plot1', click = 'mouse'), height = 450),
+                    box(status = 'info', sliderInput('slider1', label = h4('Clusters'), 
                                     min = 1, max = 9, value = 4),
-                        verbatimTextOutput('coord'))
+                        verbatimTextOutput('coord'), height = 450)
                   ),
                   fluidRow(
-                    box(status = 'warning', checkboxGroupInput('checkGroup', label = h4('Variable X'), 
-                                           names(iris), selected = names(iris)[[1]])),
-                    box(status = 'warning', selectInput('select', label = h4('Variable Y'), names(iris), 
-                                    selected = names(iris)[[2]]))
+                    box(status = 'primary', checkboxGroupInput('checkGroup', label = h4('Variable X'), 
+                                           names(iris), selected = names(iris)[[1]]), height = 450),
+                    box(status = 'danger', selectInput('select', label = h4('Variable Y'), names(iris), 
+                                    selected = names(iris)[[2]]), height = 450)
                   )
                   )
         )  
@@ -116,9 +132,6 @@ server <- shinyServer(function(input, output) {
   })
   
   output$messageMenu <- renderMenu({
-    # Code to generate each of the messageItems here, in a list. messageData
-    # is a data frame with two columns, 'from' and 'message'.
-    # Also add on slider value to the message content, so that messages update.
     msgs <- apply(messageData, 1, function(row) {
       messageItem(
         from = row[["from"]],
@@ -128,7 +141,22 @@ server <- shinyServer(function(input, output) {
     dropdownMenu(type = "messages", .list = msgs)
   })
   
+  # Dynamiske infoBox'se
+  output$progressBox <- renderInfoBox({
+    infoBox(
+      'Progress', paste0(25+input$count, '%'), icon = icon('list'), color = 'purple', fill = T
+    )
+  })
+  
+  output$approvalBox <- renderInfoBox({
+    infoBox(
+      'Approval', '80%', icon = icon('thumbs-up', lib = "glyphicon"), color = 'yellow', fill = T
+    )
+  })
+  
+  
 })
+
 
 messageData <- data.frame(
   from = c("Admininstrator", "New User", "Support"),
